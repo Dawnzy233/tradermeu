@@ -31,13 +31,21 @@ const Graph = () => {
     return [];
   });
   const [trade, setTrade] = useState<Trade>({ name: '', amount: '', date: '' });
-  const [totalAmount, setTotalAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTrades = localStorage.getItem('trades');
+      const tradesArray = savedTrades ? JSON.parse(savedTrades) : [];
+      return tradesArray.length > 0 ? parseFloat(localStorage.getItem('totalAmount') || '0') : 0;
+    }
+    return 0;
+  });
   const [warningMessage, setWarningMessage] = useState('');
 
   useEffect(() => {
     // Update local storage whenever trades change
     localStorage.setItem('trades', JSON.stringify(trades));
-  }, [trades]);
+    localStorage.setItem('totalAmount', totalAmount.toString()); // Save totalAmount to local storage
+  }, [trades, totalAmount]); // Add totalAmount to the dependency array
 
   const getColor = (amount: number) => {
     return amount >= 0 ? 'rgba(173, 216, 230, 1)' : 'rgba(255, 0, 0, 1)';
@@ -88,7 +96,11 @@ const Graph = () => {
     const amountToRemove = parseFloat(trades[index].amount); // Get the amount of the trade being deleted
     const newTrades = trades.filter((_, i) => i !== index);
     setTrades(newTrades);
-    setTotalAmount(totalAmount - amountToRemove); // Update totalAmount
+    if (newTrades.length === 0) {
+        setTotalAmount(0); // Reset totalAmount if no trades are left
+    } else {
+        setTotalAmount(totalAmount - amountToRemove); // Update totalAmount
+    }
     localStorage.setItem('trades', JSON.stringify(newTrades));
   };
 
