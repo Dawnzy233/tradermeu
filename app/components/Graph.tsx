@@ -152,7 +152,7 @@ const Graph = () => {
             >
               <option value=''>Select an Asset</option>
               <option value='Bitcoin'>Bitcoin</option>
-              <option value='ZCash'>ZCash</option>
+              <option value='Litecoin'>Litecoin</option>
               <option value='AUDUSD'>AUDUSD</option>
               <option value='EURUSD'>EURUSD</option>
               <option value='GOLD'>GOLD</option>
