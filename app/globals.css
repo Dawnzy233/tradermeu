@@ -153,4 +153,9 @@ body {
         flex-direction: row;
         padding: 30px;
     }
+
+    .trade-history
+    {
+      padding-bottom: 40px;
+    }
 }
