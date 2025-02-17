@@ -152,7 +152,7 @@ const Graph = () => {
             >
               <option value=''>Select an Asset</option>
               <option value='Bitcoin'>Bitcoin</option>
-              <option value='ZCash'>ZCash</option>
+              <option value='Litecoin'>Litecoin</option>
               <option value='AUDUSD'>AUDUSD</option>
               <option value='EURUSD'>EURUSD</option>
               <option value='GOLD'>GOLD</option>
@@ -186,6 +186,9 @@ const Graph = () => {
         <h2 className='text-2xl font-semibold text-slate-300 mb-5 text-center sticky top-0'>Trade History</h2>
         <table className='min-w-full  bg-gray-800 text-gray-300 text-center mt-10'>
           <thead>
+            <tr>
+              <th colSpan={5} className='py-2 text-center'>Number of Trades: {trades.length}</th>
+            </tr>
             <tr>
               <th className='py-2'>Asset</th>
               <th className='py-2'>Amount</th>
