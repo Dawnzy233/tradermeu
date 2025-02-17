@@ -106,7 +106,7 @@ const Graph = () => {
 
   return (
     <div className='graph-container w-[70vh] m-auto h-[100vh] flex flex-col items-center p-10'>
-      <h2 className='text-2xl text-slate-300 mb-8 self-start'>Total Amount: ${totalAmount.toFixed(2)}</h2>
+      <h2 className='total-amount text-2xl text-slate-300 mb-8 self-start'>Total Amount: ${totalAmount.toFixed(2)}</h2>
       <div className='graph w-full flex-grow flex items-center justify-center mb-8'>
         <Line 
           data={data} 
@@ -183,7 +183,7 @@ const Graph = () => {
         </div>
       </div>
       <div className='trade-history relative  w-[90%] min-h-[500px] flex flex-col items-center mt-20' >
-        <h2 className='text-2xl font-semibold text-slate-300 mb-5 text-center sticky top-0'>Trade History</h2>
+        <h2 className='tradehistory-titletext-2xl font-semibold text-slate-300 mb-5 text-center sticky top-0'>Trade History</h2>
         <table className='min-w-full  bg-gray-800 text-gray-300 text-center mt-10'>
           <thead>
             <tr>
