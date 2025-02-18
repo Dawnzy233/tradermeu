@@ -156,6 +156,7 @@ const Graph = () => {
               <option value='AUDUSD'>AUDUSD</option>
               <option value='EURUSD'>EURUSD</option>
               <option value='GOLD'>GOLD</option>
+              <option value='Dime Interest'>Dime Interest</option>
             </select>
             <input
               type='number'
