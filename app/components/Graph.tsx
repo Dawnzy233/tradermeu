@@ -41,7 +41,7 @@ const Graph = () => {
     return 0;
   });
   const [warningMessage, setWarningMessage] = useState('');
-  const [currency, setCurrency] = useState('USD');
+  const [currency, setCurrency] = useState('USD'); // Default currency is USD
 
   useEffect(() => {
     // Update local storage whenever trades change
