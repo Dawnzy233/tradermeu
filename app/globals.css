@@ -82,11 +82,31 @@ body {
 }
 
 .trade-history::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari, and Opera */
+  display: scroll; /* For Chrome, Safari, and Opera */
+}
+
+.trade-history .overflow-y-auto::-webkit-scrollbar {
+    width: 0px; /* Hide scrollbar */
+    background: transparent; /* Optional: make background transparent */
+}
+
+.trade-history .overflow-y-auto {
+    scrollbar-width: none; /* Use 'thin' for a modern look */
+    scrollbar-color: transparent transparent; /* Hide scrollbar */
+}
+
+.trade-history .overflow-y-auto:hover::-webkit-scrollbar {
+    width: 1px; /* Show scrollbar on hover */
+}
+
+.trade-history .overflow-y-auto:hover::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.5); /* Customize thumb color */
+    border-radius: 10px; /* Rounded corners */
 }
 
 .graph-container {
-  padding: 5%;
+  padding-left: 130px;
+  padding-right: 130px;
 }
 
 @media (max-width: 768px) {
@@ -156,6 +176,7 @@ body {
 
     .trade-history
     {
-      padding-bottom: 620px;
+ 
+      padding-bottom: 150px;
     }
 }

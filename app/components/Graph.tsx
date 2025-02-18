@@ -111,9 +111,9 @@ const Graph = () => {
   };
 
   return (
-    <div className='graph-container w-[70vh] m-auto h-[100vh] flex flex-col items-center p-10'>
+    <div className='relative graph-container w-[90%] m-auto flex flex-col items-center'>
       <h2 className='total-amount text-2xl text-slate-300 mb-8 self-start'>Total Amount: {currency === 'USD' ? '$' : '฿'}{totalAmount.toFixed(2)}</h2>
-      <div className='graph w-full flex-grow flex items-center justify-center mb-8'>
+      <div className=' graph w-[800px] h-[400px] flex-grow flex items-center justify-center mb-10 p-4'>
         <Line 
           data={data} 
           options={{
@@ -171,6 +171,7 @@ const Graph = () => {
               <option value='AUDUSD'>AUDUSD</option>
               <option value='EURUSD'>EURUSD</option>
               <option value='GOLD'>GOLD</option>
+              <option value='DIME Interest'>DIME Interest</option>
             </select>
             <input
               type='number'
@@ -197,37 +198,39 @@ const Graph = () => {
           </form>
         </div>
       </div>
-      <div className='trade-history relative  w-[90%] min-h-[500px] flex flex-col items-center mt-20' >
+      <div className='trade-history relative w-[90%] flex flex-col items-center justify-center mt-20 m-auto'>
         <h2 className='tradehistory-titletext-2xl font-semibold text-slate-300 mb-5 text-center sticky top-0'>Trade History ({currency})</h2>
-        <table className='min-w-full  bg-gray-800 text-gray-300 text-center mt-10'>
-          <thead>
-            <tr>
-              <th colSpan={5} className='py-2 text-center'>Number of Trades: {trades.length}</th>
-            </tr>
-            <tr>
-              <th className='py-2'>Asset</th>
-              <th className='py-2'>Amount</th>
-              <th className='py-2'>Date</th>
-              <th className='py-2'>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {trades.slice(0, 10).map((trade, index) => (
-              <tr key={index} className='border-b border-gray-700'>
-                <td className='py-2 text-center'>{trade.name}</td>
-                <td className='py-2 text-center' style={{ color: parseFloat(trade.amount) < 0 ? 'red' : 'green' }}>
-                  {trade.currency === 'USD' ? '$' : '฿'}{trade.amount}
-                </td>
-                <td className='py-2 text-center'>{trade.date}</td>
-                <td className='py-2 text-center'>
-                  <button onClick={() => handleDelete(index)} className='text-red-500 hover:text-red-700'>
-                    <FaTrash />
-                  </button>
-                </td>
+        <div className='overflow-y-auto max-h-[600px]  m-auto w-full flex justify-center rounded-md'>
+          <table className=' w-full overflow-hidden bg-gray-800 text-gray-300 text-center mt-10 rounded-2xl'>
+            <thead>
+              <tr>
+                <th colSpan={5} className='py-2 text-center'>Number of Trades: {trades.length}</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+              <tr>
+                <th className='py-2'>Asset</th>
+                <th className='py-2'>Amount</th>
+                <th className='py-2'>Date</th>
+                <th className='py-2'>Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              {trades.map((trade, index) => (
+                <tr key={index} className='border-b border-gray-700'>
+                  <td className='py-2 text-center'>{trade.name}</td>
+                  <td className='py-2 text-center' style={{ color: parseFloat(trade.amount) < 0 ? 'red' : 'green' }}>
+                    {trade.currency === 'USD' ? '$' : '฿'}{trade.amount}
+                  </td>
+                  <td className='py-2 text-center'>{trade.date}</td>
+                  <td className='py-2 text-center'>
+                    <button onClick={() => handleDelete(index)} className='text-red-500 hover:text-red-700'>
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
