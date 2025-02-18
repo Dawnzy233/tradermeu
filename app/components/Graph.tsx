@@ -19,6 +19,7 @@ interface Trade {
   name: string;
   amount: string;
   date: string;
+  currency: string;
 }
 
 const Graph = () => {
@@ -30,7 +31,7 @@ const Graph = () => {
     }
     return [];
   });
-  const [trade, setTrade] = useState<Trade>({ name: '', amount: '', date: '' });
+  const [trade, setTrade] = useState<Trade>({ name: '', amount: '', date: '', currency: '' });
   const [totalAmount, setTotalAmount] = useState(() => {
     if (typeof window !== 'undefined') {
       const savedTrades = localStorage.getItem('trades');
@@ -40,6 +41,7 @@ const Graph = () => {
     return 0;
   });
   const [warningMessage, setWarningMessage] = useState('');
+  const [currency, setCurrency] = useState('USD');
 
   useEffect(() => {
     // Update local storage whenever trades change
@@ -71,7 +73,11 @@ const Graph = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setTrade({ ...trade, [name]: value });
+    if (name === 'currency') {
+      setCurrency(value); // Update currency state
+    } else {
+      setTrade({ ...trade, [name]: value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -87,9 +93,9 @@ const Graph = () => {
       return;
     }
     setWarningMessage('');
-    setTrades([...trades, trade]);
+    setTrades([...trades, { ...trade, currency }]); 
     setTotalAmount(totalAmount + parseFloat(trade.amount));
-    setTrade({ name: '', amount: '', date: '' });
+    setTrade({ name: '', amount: '', date: '', currency: currency }); 
   };
 
   const handleDelete = (index: number) => {
@@ -106,7 +112,7 @@ const Graph = () => {
 
   return (
     <div className='graph-container w-[70vh] m-auto h-[100vh] flex flex-col items-center p-10'>
-      <h2 className='total-amount text-2xl text-slate-300 mb-8 self-start'>Total Amount: ${totalAmount.toFixed(2)}</h2>
+      <h2 className='total-amount text-2xl text-slate-300 mb-8 self-start'>Total Amount: {currency === 'USD' ? '$' : '฿'}{totalAmount.toFixed(2)}</h2>
       <div className='graph w-full flex-grow flex items-center justify-center mb-8'>
         <Line 
           data={data} 
@@ -130,7 +136,7 @@ const Graph = () => {
                     const trade = trades[context.dataIndex];
                     return [
                       `Trade: ${trade.name}`,
-                      `Amount: $${trade.amount}`,
+                      `Amount: ${trade.currency === 'USD' ? '$' : '฿'}${trade.amount}`,
                       `Date: ${trade.date}`
                     ];
                   },
@@ -145,6 +151,15 @@ const Graph = () => {
           <h2 className='text-2xl font-semibold flex justify-center mb-5 text-slate-300'>Record a Trade</h2>
           <form onSubmit={handleSubmit} className='flex flex-col items-center'>
             <select
+              name='currency'
+              value={currency} // Ensure this is bound to the currency state
+              onChange={handleInputChange}
+              className='mb-5 p-2 border text-gray-400 border-gray-400 rounded-sm w-full'
+            >
+              <option value='USD'>USD</option>
+              <option value='THB'>THB</option>
+            </select>
+            <select
               name='name'
               value={trade.name}
               onChange={handleInputChange}
@@ -156,6 +171,7 @@ const Graph = () => {
               <option value='AUDUSD'>AUDUSD</option>
               <option value='EURUSD'>EURUSD</option>
               <option value='GOLD'>GOLD</option>
+              <option value="Dime Interest">Dime Interest</option>
             </select>
             <input
               type='number'
@@ -183,7 +199,7 @@ const Graph = () => {
         </div>
       </div>
       <div className='trade-history relative  w-[90%] min-h-[500px] flex flex-col items-center mt-20' >
-        <h2 className='tradehistory-titletext-2xl font-semibold text-slate-300 mb-5 text-center sticky top-0'>Trade History</h2>
+        <h2 className='tradehistory-titletext-2xl font-semibold text-slate-300 mb-5 text-center sticky top-0'>Trade History ({currency})</h2>
         <table className='min-w-full  bg-gray-800 text-gray-300 text-center mt-10'>
           <thead>
             <tr>
@@ -200,7 +216,9 @@ const Graph = () => {
             {trades.slice(0, 10).map((trade, index) => (
               <tr key={index} className='border-b border-gray-700'>
                 <td className='py-2 text-center'>{trade.name}</td>
-                <td className='py-2 text-center' style={{ color: parseFloat(trade.amount) < 0 ? 'red' : 'green' }}>${trade.amount}</td>
+                <td className='py-2 text-center' style={{ color: parseFloat(trade.amount) < 0 ? 'red' : 'green' }}>
+                  {trade.currency === 'USD' ? '$' : '฿'}{trade.amount}
+                </td>
                 <td className='py-2 text-center'>{trade.date}</td>
                 <td className='py-2 text-center'>
                   <button onClick={() => handleDelete(index)} className='text-red-500 hover:text-red-700'>
